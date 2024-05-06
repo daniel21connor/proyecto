@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 public class Conexion {
 
     private final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private final String URL = "jdbc:oracle:thin:@//localhost:1521/xe";
     private final String USER = "USARIO_CONNOR";
     private final String PASWORD = "1234";
 
@@ -40,3 +40,4 @@ public class Conexion {
     }
 
 }
+

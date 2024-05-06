@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+import conexion.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -10,11 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 /**
  *
  * @author PC GAMING
@@ -34,60 +35,60 @@ public class RegistrarClienteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
-        // Obtener parámetros del formulario
+     
+        // Get form data from the request
         String dpi = request.getParameter("dpi");
         String nombre = request.getParameter("nombre");
         String apellido = request.getParameter("apellido");
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         String genero = request.getParameter("genero");
         String nacionalidad = request.getParameter("nacionalidad");
-        
-        // Establecer conexión a la base de datos Oracle
-        String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:ex"; // Reemplaza con tu URL de conexión
-        String usuario = "USARIO_CONNOR"; // Reemplaza con tu usuario de Oracle
-        String contraseña = "1234"; // Reemplaza con tu contraseña de Oracle
-        
-        try (Connection conn = DriverManager.getConnection(jdbcUrl, usuario, contraseña)) {
-            
-            // Preparar la sentencia SQL para la inserción
-            String sql = "INSERT INTO pasajero (id_pasajero, nombre, apellido, fecha_nacimiento, genero, nacionalidad) " +
-                         "VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?)";
-            
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                // Establecer valores en la sentencia preparada
-                pstmt.setString(1, dpi);
-                pstmt.setString(2, nombre);
-                pstmt.setString(3, apellido);
-                pstmt.setString(4, fechaNacimiento);
-                pstmt.setString(5, genero);
-                pstmt.setString(6, nacionalidad);
-                
-                // Ejecutar la inserción
-                int filasInsertadas = pstmt.executeUpdate();
-                
-                if (filasInsertadas > 0) {
-                    // Inserción exitosa
-                    response.sendRedirect("exito.html"); // Redirigir a página de éxito
-                } else {
-                    // Inserción fallida
-                    response.sendRedirect("error.html"); // Redirigir a página de error
-                }
-                
-            } catch (SQLException e) {
-                // Error al preparar o ejecutar la sentencia SQL
-                e.printStackTrace();
-                response.sendRedirect("error.html"); // Redirigir a página de error
+
+        // Connect to Oracle database
+        try {
+            // Replace with your Oracle database connection parameters
+            String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
+            String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
+            String dbUser = "USARIO_CONNOR";
+            String dbPassword = "1234";
+
+            Class.forName(jdbcDriver);
+            Connection conexion = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+
+            // Prepare and execute SQL statement to insert data
+             String sql = "INSERT INTO PASAJERO (ID_PASAJERO, NOMBRE, APELLIDO, FECHA_NACIMIENTO, GENERO, NACIONALIDAD) VALUES (?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?)";
+            PreparedStatement statement = conexion.prepareStatement(sql);
+            statement.setString(1, dpi);
+            statement.setString(2, nombre);
+            statement.setString(3, apellido);
+            statement.setDate(4, java.sql.Date.valueOf(fechaNacimiento)); // Convert String to SQL Date
+            statement.setString(5, genero);
+            statement.setString(6, nacionalidad);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected > 0) {
+                // Registration successful
+                response.setContentType("text/html");
+                PrintWriter out = response.getWriter();
+                out.println("<html><body>");
+                out.println("<h3>¡Registro exitoso!</h3>");
+                out.println("<p>Los datos del cliente se han registrado correctamente en la base de datos.</p>");
+                out.println("<a href=\"index.html\">Regresar al formulario</a>");
+                out.println("</body></html>");
+            } else {
+                // Registration failed
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar cliente.");
             }
-            
-        } catch (SQLException e) {
-            // Error al conectar a la base de datos
+
+            statement.close();
+            conexion.close();
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            response.sendRedirect("error.html"); // Redirigir a página de error
-        
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error de conexión a la base de datos.");
+        }
     }
-    }
+
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
