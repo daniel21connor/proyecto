@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar Pago</title>
+    <style>
+        body {
+            background-image: url('img/aaff.jpg'); /* URL de tu imagen de fondo */
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-attachment: fixed; /* Fija la imagen en la pantalla */
+            background-position: center; /* Centra la imagen */
+            font-family: Arial, sans-serif; /* Fuente del texto */
+            text-align: center; /* Alineación centrada del contenido */
+        }
+        
+        form {
+            margin-top: 100px; /* Espacio superior */
+            padding: 20px; /* Espacio interno */
+            border: 2px solid #ccc; /* Borde del formulario */
+            border-radius: 10px; /* Bordes redondeados */
+            background-color: rgba(255, 255, 255, 0.7); /* Fondo semitransparente */
+            width: 300px; /* Ancho del formulario */
+            margin-left: auto; /* Centrado horizontal */
+            margin-right: auto; /* Centrado horizontal */
+        }
+        
+        label {
+            font-weight: bold; /* Texto en negrita */
+        }
+        
+        input[type="text"] {
+            width: 100%; /* Ancho completo */
+            padding: 10px; /* Espacio interno */
+            margin-bottom: 20px; /* Espacio inferior */
+            box-sizing: border-box; /* Incluir padding y border en el ancho total */
+        }
+        
+        input[type="submit"] {
+            background-color: #007bff; /* Color de fondo */
+            color: #fff; /* Color del texto */
+            border: none; /* Sin borde */
+            padding: 10px 20px; /* Espacio interno */
+            border-radius: 5px; /* Bordes redondeados */
+            cursor: pointer; /* Cursor de puntero */
+            transition: background-color 0.3s; /* Transición suave */
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #0056b3; /* Color de fondo al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <form action="CancelarPagoServlet" method="POST">
+        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" style="max-width: 150px; max-height: 150px;"><br><br>
+        <label for="id_pago">ID del Pago:</label><br>
+        <input type="text" id="id_pago" name="id_pago" required><br><br>
+        <input type="submit" value="Cancelar Pago">
+    </form>
+</body>
+</html>

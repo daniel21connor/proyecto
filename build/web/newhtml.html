@@ -3,6 +3,7 @@
 <head>
     <title>La Aurora - Registro de Clientes</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="registro_persona.css">
 </head>
 <style>
     body {
@@ -23,8 +24,7 @@
        
                     <div class="card-body">
                         <!-- Formulario que envía los datos al servlet -->
-                        <form action="RegistrarClienteServlet" method="post">
-                            
+                        <form id="registrationForm" action="RegistrarClienteServlet" method="post">
                             <div class="form-group">
                                 <label for="dpi">DPI</label>
                                 <input type="text" class="form-control" id="dpi" name="dpi" required>
@@ -42,9 +42,9 @@
                                 <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
                             </div>
                             <div class="form-group">
-                                <label for="genero">Género</label>
+                                <label for="genero">Genero</label>
                                 <select class="form-control" id="genero" name="genero" required>
-                                    <option value="">Seleccione un género</option>
+                                    <option value="">Seleccione un genero</option>
                                     <option value="masculino">Masculino</option>
                                     <option value="femenino">Femenino</option>
                                 </select>
@@ -53,13 +53,34 @@
                                 <label for="nacionalidad">Nacionalidad</label>
                                 <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" required>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-block">Registrar Cliente</button>
+                            <button type="button" onclick="submitForm()" class="btn btn-primary btn-block">Registrar Cliente</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function submitForm() {
+            var form = document.getElementById("registrationForm");
+            var formData = new FormData(form);
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", form.action);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    showMessage(response.message);
+                }
+            };
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send(new URLSearchParams(formData).toString());
+        }
+
+        function showMessage(message) {
+            alert(message);
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

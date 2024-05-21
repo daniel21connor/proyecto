@@ -2,21 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-import conexion.Conexion;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-/**
+/**y
  *
  * @author PC GAMING
  */
@@ -43,7 +40,9 @@ public class RegistrarClienteServlet extends HttpServlet {
         String fechaNacimiento = request.getParameter("fechaNacimiento");
         String genero = request.getParameter("genero");
         String nacionalidad = request.getParameter("nacionalidad");
-
+  response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
         // Connect to Oracle database
         try {
             // Replace with your Oracle database connection parameters
@@ -65,26 +64,22 @@ public class RegistrarClienteServlet extends HttpServlet {
             statement.setString(5, genero);
             statement.setString(6, nacionalidad);
 
-            int rowsAffected = statement.executeUpdate();
+             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
                 // Registration successful
-                response.setContentType("text/html");
-                PrintWriter out = response.getWriter();
-                out.println("<html><body>");
-                out.println("<h3>¡Registro exitoso!</h3>");
-                out.println("<p>Los datos del cliente se han registrado correctamente en la base de datos.</p>");
-                out.println("<a href=\"index.html\">Regresar al formulario</a>");
-                out.println("</body></html>");
+                out.write("{\"status\":\"success\",\"message\":\"¡Registro exitoso! Los datos del cliente se han registrado correctamente en la base de datos.\"}");
             } else {
                 // Registration failed
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al registrar cliente.");
+                out.write("{\"status\":\"error\",\"message\":\"Error al registrar cliente.\"}");
             }
 
             statement.close();
             conexion.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error de conexión a la base de datos.");
+            out.write("{\"status\":\"error\",\"message\":\"Error de conexion a la base de datos.\"}");
+        
+    
         }
     }
 

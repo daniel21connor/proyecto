@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>La Aurora - Registro de Pagos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .logo-img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        body {
+            background-image: url('img/aaff.jpg'); /* URL de tu imagen de fondo */
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-attachment: fixed; /* Fija la imagen en la pantalla */
+            background-position: center; /* Centra la imagen */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" class="logo-img">
+                        <h4>Registro de Pagos</h4>
+                    </div>
+                    <div class="card-body">
+                        <form id="paymentForm" action="PagoServlet" method="post">
+                            <div class="form-group">
+                                <label for="monto">Monto:</label>
+                                <input type="number" class="form-control" id="monto" name="monto" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fechaPago">Fecha de Pago:</label>
+                                <input type="date" class="form-control" id="fechaPago" name="fechaPago" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="metodoPago">Metodo de Pago</label>
+                                <select class="form-control" id="metodoPago" name="metodoPago" required>
+                                    <option value="">Seleccione un metodo de pago</option>
+                                    <option value="efectivo">Efectivo</option>
+                                    <option value="tarjeta">Tarjeta</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="idReserva">NIT</label>
+                                <input type="text" class="form-control" id="idReserva" name="idReserva" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Pago</button>
+                           <div class="text-center mt-3">
+                                <a class="btn btn-outline-dark text-white" href="cancelarPago.html">Cancelar Pago</a>
+                            </div>
+                                        </form>
+                           
+                           
+                      
+                    
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+   
+        document.getElementById("paymentForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData).toString();
+
+            fetch("PagoServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: params
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("¡Registro de pago exitoso!");
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error de conexión.");
+            });
+        });
+    </script>
+</body>
+</html>
