@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Vuelo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+     <style>
+        .logo-img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        body {
+            background-image: url('img/aaff.jpg'); /* URL de tu imagen de fondo */
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-attachment: fixed; /* Fija la imagen en la pantalla */
+            background-position: center; /* Centra la imagen */
+            height: 100vh; /* Asegura que cubra toda la ventana */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="card-header text-center">
+                        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" class="logo-img">
+                        <h4>Registrar vuelo</h4>
+                    </div>
+        <form id="vueloForm" class="mt-4">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="codigoVuelo">Código de Vuelo:</label>
+                    <input type="text" class="form-control" id="codigoVuelo" name="codigoVuelo" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="numeroVuelo">Número de Vuelo:</label>
+                    <input type="text" class="form-control" id="numeroVuelo" name="numeroVuelo" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="fechaSalida">Fecha de Salida:</label>
+                    <input type="date" class="form-control" id="fechaSalida" name="fechaSalida" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="fechaLlegada">Fecha de Llegada:</label>
+                    <input type="date" class="form-control" id="fechaLlegada" name="fechaLlegada" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="origen">Origen:</label>
+                    <input type="text" class="form-control" id="origen" name="origen" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="destino">Destino:</label>
+                    <input type="text" class="form-control" id="destino" name="destino" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="estadoVuelo">Estado del Vuelo:</label>
+                    <select class="form-control" id="estadoVuelo" name="estadoVuelo" required>
+                        <option value="">Seleccione un estado</option>
+                        <option value="programado">Programado</option>
+                        <option value="en curso">En Curso</option>
+                        <option value="completado">Completado</option>
+                        <option value="cancelado">Cancelado</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="idTripulacion">Codigo  de Tripulación:</label>
+                    <input type="text" class="form-control" id="idTripulacion" name="idTripulacion" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="asientosDisponibles">Asientos Disponibles:</label>
+                    <input type="number" class="form-control" id="asientosDisponibles" name="asientosDisponibles" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="idAvion">Codigo de Avión:</label>
+                    <input type="text" class="form-control" id="idAvion" name="idAvion" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar Vuelo</button>
+        </form>
+        <div id="responseMessage" class="mt-3"></div>
+    </div>
+
+    <script>
+        document.getElementById("vueloForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData).toString();
+
+            fetch("RegistrarVueloServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: params
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseMessage = document.getElementById("responseMessage");
+                if (data.status === "success") {
+                    responseMessage.innerHTML = "<div class='alert alert-success'>Registro de vuelo exitoso</div>";
+                    form.reset(); // Limpiar el formulario después de un registro exitoso
+                } else {
+                    responseMessage.innerHTML = "<div class='alert alert-danger'>Error: " + data.message + "</div>";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                const responseMessage = document.getElementById("responseMessage");
+                responseMessage.innerHTML = "<div class='alert alert-danger'>Error de conexión.</div>";
+            });
+        });
+    </script>
+</body>
+</html>

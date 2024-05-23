@@ -28,6 +28,7 @@ public class ReservacionServlet extends HttpServlet {
         String dpi = request.getParameter("dpi");
         String fechaReserva = request.getParameter("fechaReserva");
         String estadoReserva = request.getParameter("estadoReserva");
+        String vuelos = request.getParameter("vuelos");
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -41,12 +42,13 @@ public class ReservacionServlet extends HttpServlet {
             Class.forName(jdbcDriver);
             Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-            String sql = "INSERT INTO RESERVA (ID_RESERVA, ID_PASAJERO, FECHA_RESERVA, ESTADO_RESERVA) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?)";
+            String sql = "INSERT INTO RESERVA (ID_RESERVA, ID_PASAJERO, FECHA_RESERVA, ESTADO_RESERV, ID_VUELO) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD'), ?,?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, nit);
             statement.setString(2, dpi);
-            statement.setDate(3, java.sql.Date.valueOf(fechaReserva));
+            statement.setDate(3, java.sql.Date.valueOf(fechaReserva)); 
             statement.setString(4, estadoReserva);
+            statement.setString(5, vuelos);
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {

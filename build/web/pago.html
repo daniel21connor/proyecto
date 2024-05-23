@@ -49,17 +49,11 @@
                                 <input type="text" class="form-control" id="idReserva" name="idReserva" required>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">Registrar Pago</button>
-                           <div class="text-center mt-3">
-                                <a class="btn btn-outline-dark text-white" href="cancelarPago.html">Cancelar Pago</a>
-                            </div>
-                                        </form>
+                          
                            
                            
                       
-                    
-                  
-                </div>
-            </div>
+                 
         </div>
     </div>
 
@@ -83,14 +77,14 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === "success") {
-                    alert("¡Registro de pago exitoso!");
+                    alert("Registro de pago exitoso");
                 } else {
                     alert("Error: " + data.message);
                 }
             })
             .catch(error => {
                 console.error("Error:", error);
-                alert("Error de conexión.");
+                alert("Error de conexion.");
             });
         });
     </script>

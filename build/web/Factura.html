@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Factura</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/aaff.jpg'); /* URL de tu imagen de fondo */
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-attachment: fixed; /* Fija la imagen en la pantalla */
+            background-position: center; /* Centra la imagen */
+        }
+        .logo-img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        .container {
+            margin-top: 50px; /* Margen superior para centrar el formulario */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" class="logo-img">
+                        <h1>Registrar Factura</h1>
+                    </div>
+                    <div class="card-body">
+                        <form id="facturaForm">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="id_factura">Codigo de Factura:</label>
+                                    <input type="text" class="form-control" id="id_factura" name="id_factura" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="fecha_factura">Fecha Factura:</label>
+                                    <input type="date" class="form-control" id="fecha_factura" name="fecha_factura" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="monto_total">Monto Total:</label>
+                                    <input type="number" step="0.01" class="form-control" id="monto_total" name="monto_total" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="id_pago">Codigo de Pago:</label>
+                                    <input type="text" class="form-control" id="id_pago" name="id_pago" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="detalles">Detalles:</label>
+                                <textarea class="form-control" id="detalles" name="detalles" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Registrar Factura</button>
+                        </form>
+                        <div id="responseMessage" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("facturaForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const params = new URLSearchParams(formData).toString();
+
+            fetch("RegistrarFacturaServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: params
+            })
+            .then(response => response.json())
+            .then(data => {
+                const responseMessage = document.getElementById("responseMessage");
+                if (data.status === "success") {
+                    responseMessage.innerHTML = "<div class='alert alert-success'>Registro de factura exitoso</div>";
+                    form.reset(); // Limpiar el formulario después de un registro exitoso
+                } else {
+                    responseMessage.innerHTML = "<div class='alert alert-danger'>Error: " + data.message + "</div>";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                const responseMessage = document.getElementById("responseMessage");
+                responseMessage.innerHTML = "<div class='alert alert-danger'>Error de conexion.</div>";
+            });
+        });
+    </script>
+</body>
+</html>
