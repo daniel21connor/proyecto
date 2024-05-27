@@ -5,24 +5,35 @@
         <group>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/PagoServlet.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/Mantenimiento.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/index.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/CancelarPagoServlet.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/cancelarPago.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/js/Registro_persona.css</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/reservacion.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/BorrarPasajeroServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/EditarReservaServlet.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/Factura.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/RegistrarAvionServlet.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/RegistrarClienteServlet.java</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/ReservacionServlet.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/avion.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/Vuelo.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/RegistrarVueloServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/TablaEquipaje.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/TablaReserva.html</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/userDashboard.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/adminDashboard.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/equipaje.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/Conexion/Conexion.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/tripulacion.html</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/pasajeros.html</file>
-            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/pago.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/tabla_pasajeros.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/EditarEquipajeServlet.java</file>
             <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/loginServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/index.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/BorrarReservaServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/reservacion.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/ObtenerPasajerosServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/EditarPasajeroServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/RegistrarAvionServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/ReservacionServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/RegistrarVueloServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/equipaje.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/pago.html</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/ObtenerEquipajeServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/src/java/ObtenerReservasServlet.java</file>
+            <file>file:/C:/Users/PC%20GAMING/OneDrive/Documentos/NetBeansProjects/WebApplication5/web/indexAA.html</file>
         </group>
     </open-files>
 </project-private>

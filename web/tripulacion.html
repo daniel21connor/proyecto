@@ -84,7 +84,7 @@
             .then(data => {
                 const responseMessage = document.getElementById("responseMessage");
                 if (data.status === "success") {
-                    responseMessage.innerHTML = "<div class='alert alert-success'>¡Registro de tripulación exitoso!</div>";
+                    responseMessage.innerHTML = "<div class='alert alert-success'>Registro de tripulación exitoso</div>";
                     form.reset(); // Limpiar el formulario después de un registro exitoso
                 } else {
                     responseMessage.innerHTML = "<div class='alert alert-danger'>Error: " + data.message + "</div>";
@@ -93,7 +93,7 @@
             .catch(error => {
                 console.error("Error:", error);
                 const responseMessage = document.getElementById("responseMessage");
-                responseMessage.innerHTML = "<div class='alert alert-danger'>Error de conexión.</div>";
+                responseMessage.innerHTML = "<div class='alert alert-danger'>Error de conexion.</div>";
             });
         });
     </script>

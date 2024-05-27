@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Reservas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/aaff.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .logo-img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" class="logo-img">
+                        <h4>Gestión de Reservas</h4>
+                    </div>
+                    <div class="card-body">
+                        <button id="reloadPageBtn" class="btn btn-primary mb-3">Refrescar Página</button>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Reserva</th>
+                                    <th>Fecha de Reserva</th>
+                                    <th>Estado de Reserva</th>
+                                    <th>ID Pasajero</th>
+                                    <th>ID Vuelo</th>
+                                    <th>acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reservaTableBody">
+                                <!-- Los datos de las reservas serán insertados aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadReservas();
+
+            document.getElementById("reloadPageBtn").addEventListener("click", function() {
+                window.location.reload();
+            });
+
+            document.getElementById("reloadDataBtn").addEventListener("click", function() {
+                loadReservas();
+            });
+        });
+
+        function loadReservas() {
+            fetch("ObtenerReservasServlet")
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById("reservaTableBody");
+                    tableBody.innerHTML = "";
+                    data.forEach(reserva => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td>${reserva.idReserva}</td>
+                            <td><input type="date" id="fecha_${reserva.idReserva}" value="${reserva.fechaReserva}"></td>
+                            <td><input type="text" id="estado_${reserva.idReserva}" value="${reserva.estadoReserva}"></td>
+                            <td>${reserva.idPasajero}</td>
+                            <td>${reserva.idVuelo}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm" onclick="editReserva('${reserva.idReserva}')">Editar</button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteReserva('${reserva.idReserva}')">Borrar</button>
+                            </td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                });
+        }
+
+        function editReserva(idReserva) {
+            const nuevaFecha = document.getElementById(`fecha_${idReserva}`).value;
+            const nuevoEstado = document.getElementById(`estado_${idReserva}`).value;
+
+            const params = new URLSearchParams({ idReserva, nuevaFecha, nuevoEstado }).toString();
+
+            fetch("EditarReservaServlet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: params
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                loadReservas();
+            });
+        }
+
+        function deleteReserva(idReserva) {
+            if (confirm("¿Está seguro de que desea borrar esta reserva?")) {
+                fetch("BorrarReservaServlet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                     body: new URLSearchParams({ id_reserva: idReserva }).toString() 
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    loadReservas();
+                });
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

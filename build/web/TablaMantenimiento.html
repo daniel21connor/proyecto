@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Mantenimiento</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/aaff.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .logo-img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" class="logo-img">
+                        <h4>Gestión de Mantenimiento</h4>
+                    </div>
+                    <div class="card-body">
+                        <button id="reloadPageBtn" class="btn btn-primary mb-3">Refrescar Página</button>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Mantenimiento</th>
+                                    <th>Tipo de Mantenimiento</th>
+                                    <th>Fecha de Inicio</th>
+                                    <th>Fecha de Fin</th>
+                                    <th>Descripción</th>
+                                    <th>Costo</th>
+                                    <th>Estado</th>
+                                    <th>ID Avión</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mantenimientoTableBody">
+                                <!-- Los datos de mantenimiento serán insertados aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadMantenimientos();
+
+            document.getElementById("reloadPageBtn").addEventListener("click", function() {
+                window.location.reload();
+            });
+        });
+
+        function loadMantenimientos() {
+            fetch("ObtenerMantenimientosServlet")
+                .then(response => response.text())
+                .then(data => {
+                    const tableBody = document.getElementById("mantenimientoTableBody");
+                    tableBody.innerHTML = data;
+                });
+        }
+
+  function editMantenimiento(idMantenimiento) {
+    const tipoMantenimiento = prompt("Nuevo tipo de mantenimiento:");
+    const fechaInicio = prompt("Nueva fecha de inicio (YYYY-MM-DD):");
+    const fechaFin = prompt("Nueva fecha de fin (YYYY-MM-DD):");
+    const descripcion = prompt("Nueva descripción:");
+    const costo = prompt("Nuevo costo:");
+    const estado = prompt("Nuevo estado:");
+
+    if (tipoMantenimiento && fechaInicio && fechaFin && descripcion && costo && estado) {
+        const params = new URLSearchParams({ idMantenimiento, tipoMantenimiento, fechaInicio, fechaFin, descripcion, costo, estado }).toString();
+
+        fetch("EditarMantenimientoServlet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: params
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            loadMantenimientos();
+        });
+    }
+}
+        function deleteMantenimiento(idMantenimiento) {
+            if (confirm("¿Está seguro de que desea borrar este registro de mantenimiento?")) {
+                fetch("BorrarMantenimientoServlet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({ idMantenimiento }).toString()
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    loadMantenimientos();
+                });
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -56,11 +56,12 @@ public class RegistrarFacturaServlet extends HttpServlet {
             String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
             String dbUser = "USARIO_CONNOR";
             String dbPassword = "1234";
+            
             Class.forName(jdbcDriver);
             Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
             // Preparar la consulta SQL
-            String sql = "INSERT INTO FACTURA (ID_FACTURA, FECHA_FACTURA, MONTO_TOTAL, DETALLES, ID_PAGO) VALUES (?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?)";
+            String sql = "INSERT INTO FACTURA (ID_FACTURA, FECHA_FACTURA, MON_TOTAL, DETALLES, ID_PAGO) VALUES (?, TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, idFactura);
             statement.setString(2, fechaFactura);

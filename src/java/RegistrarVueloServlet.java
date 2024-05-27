@@ -1,15 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -21,50 +9,42 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-/**
- *
- * @author PC GAMING
- */
+
 @WebServlet(urlPatterns = {"/RegistrarVueloServlet"})
 public class RegistrarVueloServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-   String idVuelo = request.getParameter("id_vuelo");
-        String numeroVuelo = request.getParameter("numero_vuelo");
-        String fechaSalida = request.getParameter("fecha_salida");
-        String fechaLlegada = request.getParameter("fecha_llegada");
-        String origen = request.getParameter("origen");
-        String destino = request.getParameter("destino");
-        String estadoVuelo = request.getParameter("estado_vuelo");
-        String idTripulacion = request.getParameter("id_tripulacion");
-        int asientosDisponibles = Integer.parseInt(request.getParameter("asientos_disponibles"));
-        String idAvion = request.getParameter("id_avion");
-
         response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
-        String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
-        String dbUser = "USUARIO_CONNOR";
-        String dbPassword = "1234";
+        // Get form data from the request
+        String codigoVuelo = request.getParameter("codigoVuelo");
+        String numeroVuelo = request.getParameter("numeroVuelo");
+        String fechaSalida = request.getParameter("fechaSalida");
+        String fechaLlegada = request.getParameter("fechaLlegada");
+        String origen = request.getParameter("origen");
+        String destino = request.getParameter("destino");
+        String estadoVuelo = request.getParameter("estadoVuelo");
+        String idTripulacion = request.getParameter("idTripulacion");
+        int asientosDisponibles = Integer.parseInt(request.getParameter("asientosDisponibles"));
+        String idAvion = request.getParameter("idAvion");
 
         try {
+            // Connect to your database
+            String jdbcDriver = "oracle.jdbc.driver.OracleDriver";
+            String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
+            String dbUser = "AVIONES";
+            String dbPassword = "1234";
+
             Class.forName(jdbcDriver);
             Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
-            String sql = "INSERT INTO VUELO (ID_VUELO, NUMERO_VUELO, FECHA_SALIDA, FECHA_LLEGADA, ORIGEN, DESTINO, ESTADO_VUELO, ID_TRIPULACION, ASIENTOS_DISPONIBLES, ID_AVION) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI'), TO_DATE(?, 'YYYY-MM-DD\"T\"HH24:MI'), ?, ?, ?, ?, ?, ?)";
+            // Prepare SQL statement to insert data
+            String sql = "INSERT INTO VUELO (ID_VUELO, NUMERO_VUELO, FECHA_SALIDA, FECHA_LLEGADA, ORIGEN, DESTINO, ESTADO_VUELO, ID_TRIPULACION, ASIENTOS_DISPONOBLES, ID_AVION) VALUES (?, ?, TO_DATE(?, 'YYYY-MM-DD'), TO_DATE(?, 'YYYY-MM-DD'), ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, idVuelo);
+            statement.setString(1, codigoVuelo);
             statement.setString(2, numeroVuelo);
             statement.setString(3, fechaSalida);
             statement.setString(4, fechaLlegada);
@@ -75,19 +55,23 @@ public class RegistrarVueloServlet extends HttpServlet {
             statement.setInt(9, asientosDisponibles);
             statement.setString(10, idAvion);
 
+            // Execute the SQL statement
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
-                out.write("{\"status\":\"success\"}");
+                // Registration successful
+                out.write("{\"status\":\"success\",\"message\":\"¡Registro exitoso!\"}");
             } else {
-                out.write("{\"status\":\"error\",\"message\":\"Error al insertar el vuelo.\"}");
+                // Registration failed
+                out.write("{\"status\":\"error\",\"message\":\"Error al registrar el vuelo.\"}");
             }
 
+            // Clean-up environment
             statement.close();
             connection.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            out.write("{\"status\":\"error\",\"message\":\"Error de conexion a la base de datos.\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Error de conexión a la base de datos.\"}");
         }
     }
 

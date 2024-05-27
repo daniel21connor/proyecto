@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Pagos</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img/aaff.jpg'); /* URL de tu imagen de fondo */
+            background-size: cover; /* Asegura que la imagen cubra toda la pantalla */
+            background-repeat: no-repeat; /* Evita que la imagen se repita */
+            background-attachment: fixed; /* Fija la imagen en la pantalla */
+            background-position: center; /* Centra la imagen */
+        }
+        .logo-img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+            border-radius: 10px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <img src="img/Red Classic Airline Logo (1).png" alt="Logo de La Aurora" class="logo-img">
+                        <h4>Gestión de Pagos</h4>
+                    </div>
+                    <div class="card-body">
+                        <button id="reloadPageBtn" class="btn btn-primary mb-3">Refrescar Página</button>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>ID Pago</th>
+                                    <th>Monto</th>
+                                    <th>Fecha de Pago</th>
+                                    <th>Método de Pago</th>
+                                    <th>ID Reserva</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pagoTableBody">
+                                <!-- Los datos de los pagos serán insertados aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            loadPagos();
+
+            document.getElementById("reloadPageBtn").addEventListener("click", function() {
+                window.location.reload();
+            });
+        });
+
+        function loadPagos() {
+            fetch("ObtenerPagosServlet")
+                .then(response => response.text())
+                .then(data => {
+                    const tableBody = document.getElementById("pagoTableBody");
+                    tableBody.innerHTML = data;
+                });
+        }
+
+        function editPago(idPago) {
+            const monto = prompt("Nuevo monto:");
+            const fechaPago = prompt("Nueva fecha de pago (YYYY-MM-DD):");
+            const metodoPago = prompt("Nuevo método de pago:");
+
+            if (monto && fechaPago && metodoPago) {
+                const params = new URLSearchParams({ idPago, monto, fechaPago, metodoPago }).toString();
+
+                fetch("EditarPagoServlet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: params
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    loadPagos();
+                });
+            }
+        }
+
+        function deletePago(idPago) {
+            if (confirm("¿Está seguro de que desea borrar este pago?")) {
+                fetch("BorrarPagoServlet", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: new URLSearchParams({ idPago }).toString()
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    loadPagos();
+                });
+            }
+        }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

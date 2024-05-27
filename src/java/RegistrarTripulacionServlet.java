@@ -43,7 +43,8 @@ public class RegistrarTripulacionServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-            // Obtener los parámetros del formulario
+            
+// Obtener los parámetros del formulario
             String idTripulacion = request.getParameter("id_tripulacion");
             String nombre = request.getParameter("nombre");
             String apellido = request.getParameter("apellido");
@@ -74,7 +75,7 @@ public class RegistrarTripulacionServlet extends HttpServlet {
             if (rowsAffected > 0) {
                 out.write("{\"status\":\"success\"}");
             } else {
-                out.write("{\"status\":\"error\",\"message\":\"Error al insertar la tripulación.\"}");
+                out.write("{\"status\":\"error\",\"message\":\"Error al insertar la tripulacion.\"}");
             }
 
             // Cerrar la conexión y liberar recursos
@@ -82,7 +83,7 @@ public class RegistrarTripulacionServlet extends HttpServlet {
             connection.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            out.write("{\"status\":\"error\",\"message\":\"Error de conexión a la base de datos.\"}");
+            out.write("{\"status\":\"error\",\"message\":\"Error de conexion a la base de datos.\"}");
         } catch (NumberFormatException e) {
             e.printStackTrace();
             out.write("{\"status\":\"error\",\"message\":\"Error en el formato de los datos.\"}");

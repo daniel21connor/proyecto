@@ -9,7 +9,7 @@ public class Conexion {
 
     private final String DRIVER = "oracle.jdbc.driver.OracleDriver";
     private final String URL = "jdbc:oracle:thin:@//localhost:1521/xe";
-    private final String USER = "USARIO_CONNOR";
+    private final String USER = "AVIONES";
     private final String PASWORD = "1234";
 
     public Connection cadena;
